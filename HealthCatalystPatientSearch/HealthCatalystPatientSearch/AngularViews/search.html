@@ -1,0 +1,52 @@
+﻿<div>
+    <form class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" ng-model="sc.searchTerm" placeholder="Enter search term here..." />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-md" ng-click="sc.performSearch(sc.searchTerm)">Search</button>
+        </div>
+        <div class="form-group">
+            <label><input class="checkbox" type="checkbox" ng-model="sc.slowSearch">Simulate Slow Search</label>
+        </div>
+    </form>
+    <div class="form-group button-right">
+        <button type="submit" class="btn btn-primary btn-md" ng-click="sc.addPerson()">Add Person</button>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Age</th>
+            <th>Address</th>
+            <th>Interests</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="person in sc.persons.slice(((sc.currentPage-1)*sc.itemsPerPage), ((sc.currentPage)*sc.itemsPerPage))">
+            <td><img class="avatar" ng-src="data:image/JPEG;base64,{{sc.getBase64(person.Image)}}"/></td>
+            <td>{{ person.LastName }}</td>
+            <td>{{ person.FirstName }}</td>
+            <td>{{ person.Age }}</td>
+            <td style="white-space: pre">{{ person.Address.AsString }}</td>
+            <td>{{ person.Interests }}</td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <ul uib-pagination total-items="sc.totalItems" ng-model="sc.currentPage" max-size="sc.maxSize" boundary-links="true" ng-change="sc.pageChanged()" class="pagination-sm" items-per-page="sc.itemsPerPage"></ul>
+</div>
+Show
+<div class="btn-group" uib-dropdown is-open="status.isopen">
+    <button id="single-button" type="button" class="btn btn-primary btn-xs" uib-dropdown-toggle ng-disabled="disabled">
+        {{sc.viewby}} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+        <li role="menuitem" ng-repeat="option in sc.pageSizeOptions" ng-click="sc.setItemsPerPage(option)">{{option}}</li>
+    </ul>
+</div>
+records at a time.

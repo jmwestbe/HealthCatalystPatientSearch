@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthCatalystPatientSearch", "HealthCatalystPatientSearch\HealthCatalystPatientSearch.csproj", "{61EBDA99-9027-48EB-8A57-3E94B688317E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthCatalystPatientSearch.Tests", "HealthCatalystPatientSearch.Tests\HealthCatalystPatientSearch.Tests.csproj", "{B42271D2-127B-4FDF-B7D6-8C731B3E656B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61EBDA99-9027-48EB-8A57-3E94B688317E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61EBDA99-9027-48EB-8A57-3E94B688317E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61EBDA99-9027-48EB-8A57-3E94B688317E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61EBDA99-9027-48EB-8A57-3E94B688317E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B42271D2-127B-4FDF-B7D6-8C731B3E656B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B42271D2-127B-4FDF-B7D6-8C731B3E656B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B42271D2-127B-4FDF-B7D6-8C731B3E656B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B42271D2-127B-4FDF-B7D6-8C731B3E656B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2187E8BB-C569-4F08-A6FC-4EE19638BF99}
+	EndGlobalSection
+EndGlobal
