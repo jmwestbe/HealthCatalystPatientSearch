@@ -145,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\PersonContextIntegTest.cs" />
+    <Compile Include="Context\PersonContextTest.cs" />
+    <Compile Include="Controllers\HomeControllerIntegTest.cs" />
+    <Compile Include="Models\PersonTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>

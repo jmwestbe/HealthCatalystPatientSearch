@@ -18,20 +18,6 @@ namespace HealthCatalystPatientSearch.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Title = "Patient Search Assignment";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Title = "Contact Me";
-            return View();
-        }
-
-
         [HttpPost]
         public JsonResult Add(Person person)
         {
@@ -75,26 +61,6 @@ namespace HealthCatalystPatientSearch.Controllers
 
                 return Json(persons, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        public bool MatchesSearch(Person p, string searchString = null)
-        {
-            if (searchString == null)
-            {
-                return true;
-            }
-
-            if (p == null || p.FirstName == null || p.LastName == null)
-            {
-                return false;
-            }
-
-            //Most scenarios caught in first to cases. Last 2 provided for when user enters space or comma in search string
-            return p.FirstName.ToUpper().Contains(searchString.ToUpper())
-                   || p.LastName.ToUpper().Contains(searchString.ToUpper())
-                   || $"{p.FirstName.ToUpper()} {p.LastName.ToUpper()}".Contains(searchString.ToUpper())
-                   || $"{p.LastName.ToUpper()}, {p.FirstName.ToUpper()}".Contains(searchString.ToUpper());
-                
         }
     }
 }
