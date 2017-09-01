@@ -1,4 +1,4 @@
-﻿var App = angular.module('App', ['ngRoute', 'ui.bootstrap']);
+﻿var App = angular.module('App', ['ngRoute', 'ui.bootstrap', 'angularSpinner']);
 
 App.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider.when('/home',
@@ -111,7 +111,7 @@ App.controller('AddController',
                     headers: { "Content-Type": "application/json" }
                 }).then( function(data, status) {
                     console.log("Success: " + data.data);
-                    searchInfo.function(searchInfo.term);
+                    searchInfo.function(searchInfo.term, false); //not slow search
                 }, function (data, status) {
                         console.log("Failure: " + data.data);
                     
@@ -158,12 +158,17 @@ App.controller('AddController',
         }
     }]);
 
-App.controller('SearchController', ['$scope', '$uibModal','$http', function ($scope, $uibModal, $http) {
+App.controller('SearchController', ['$scope', '$uibModal','$http', '$interval', function ($scope, $uibModal, $http, $interval) {
 
     var self = this;
 
     self.persons = [];
 
+    self.alertShouldShow = false;
+    self.firstSearch = true;
+    self.loading = false;
+    self.loadingMessage = "Nothing to see here";
+    self.loadingPromise = null;
     self.slowSearch = false;
     self.searchTerm = "";
     self.viewby = 5;
@@ -173,19 +178,30 @@ App.controller('SearchController', ['$scope', '$uibModal','$http', function ($sc
     self.maxSize = 5;
     self.pageSizeOptions = [3, 5, 10];
 
-    self.performSearch = function (searchTerm) {
+    self.performSearch = function (searchTerm, slowSearch) {
         console.log("Performing search for: " + searchTerm);
+        self.loading = true;
+
+        self.beginAppendLoadingDots();
 
         var post = $http({
             method: "GET",
-            url: self.slowSearch ? "/Home/SlowGetPersons" : "/Home/GetPersons",
+            url: slowSearch ? "/Home/SlowGetPersons" : "/Home/GetPersons",
             params: { searchString : self.searchTerm }
         }).then(function (data, status) {
             console.log("Success: " + data.data);
             self.persons = data.data;
             self.totalItems = data.data.length;
+            self.loading = false;
+
+            $interval.cancel(self.loadingPromise);//stop appending '.' to message
+
+            //reset message
+            self.loadingMessage = "LOADING SEARCH RESULTS  . . .";
+
         }, function (data, status) {
             console.log("Failure: " + data.data);
+            self.loading = false;
         });
     }
 
@@ -204,7 +220,7 @@ App.controller('SearchController', ['$scope', '$uibModal','$http', function ($sc
         self.currentPage = 1; //set to first page on itemsPerPage update
     }
 
-    self.addPerson = function () {
+    self.addPerson = function() {
         console.log("in addPerson");
         var modalInstance = $uibModal.open({
             animation: true,
@@ -221,10 +237,15 @@ App.controller('SearchController', ['$scope', '$uibModal','$http', function ($sc
             }
         });
 
-        modalInstance.result.then(function (success) {
-            self.addSuccess = success;
-        },
-            function () {
+        modalInstance.result.then(function(success) {
+                self.addSuccess = success;
+                self.alertShouldShow = true;
+
+                $interval(function() {
+                    self.alertShouldShow = false;
+                }, 5000, 1); //close alert after 5 seconds, if not already closed
+            },
+            function() {
                 console.log('Modal dismissed at ' + new Date());
             });
     }
@@ -241,6 +262,25 @@ App.controller('SearchController', ['$scope', '$uibModal','$http', function ($sc
         return btoa(base64);
     }
 
+    self.closeAlert = function() {
+        console.log("closing alert");
+        self.alertShouldShow = false;
+    }
+
+    self.beginAppendLoadingDots = function()
+    {
+        self.loadingPromise = $interval(function () {
+            self.loadingMessage += " .";
+        }, 600);
+    }
+
     //init search on load
-    self.performSearch();
+    self.init = function () {
+        self.loading = true;
+        self.loadingMessage = "SEEDING DATABASE  . . .";
+        self.performSearch();
+    }
+
+    self.init();
+    
 }]);

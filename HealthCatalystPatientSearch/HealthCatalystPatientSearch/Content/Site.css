@@ -35,10 +35,6 @@ textarea {
     vertical-align: middle;
 }
 
-.button-right {
-    float: right;
-}
-
 .button-right-pad {
     float: right;
     padding-right: 15px;
@@ -60,3 +56,40 @@ textarea {
     height: 75px;
     width: 75px;
 }
+
+.alert-med {
+    width: 275px;
+}
+
+.float-right {
+    float: right;
+}
+
+.label-pad {
+    padding-right: 15px;
+    background-color: rgba(92,184,92, .8);
+    border-radius: 5px;
+    color: white;
+    height: 35px;
+    line-height: 35px;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.close-sm {
+    font-size: large;
+    font-weight: bold;
+    color: white;
+}
+
+.alert-button-pad-left {
+    padding-left: 10px;
+}
+
+.p-loading {
+    font-size: 13px;
+    font-weight: bold;
+    font-style: italic;
+}
+

@@ -155,9 +155,14 @@
     <Content Include="App.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Scripts\angular-spinner.js" />
+    <Content Include="Scripts\angular-spinner.min.js" />
+    <Content Include="Scripts\spin.js" />
+    <Content Include="Scripts\spin.min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Scripts\angular-spinner.js.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HealthCatalystPatientSearch\HealthCatalystPatientSearch.csproj">

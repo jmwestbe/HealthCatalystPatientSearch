@@ -4,19 +4,19 @@
 <div class="modal-body">
     <form name="addForm" class="form-horizontal">
         <div class="form-group">
-            <label class="control-label col-sm-3 add-label" for="first">First Name:</label>
+            <label class="control-label col-sm-3 add-label" for="first">First Name*:</label>
             <div class="col-sm-8">
                 <input id="first" type='text' ng-model='add.firstName' placeholder="Enter first name" required />
             </div>
         </div>
         <div class="row form-group">
-            <label class="control-label col-sm-3 add-label" for="last">Last Name:</label>
+            <label class="control-label col-sm-3 add-label" for="last">Last Name*:</label>
             <div class="col-sm-8">
                 <input id="last" type='text' ng-model='add.lastName' placeholder="Enter last name" required />
             </div>
         </div>
         <div class="row form-group">
-            <label class="control-label col-sm-3 add-label" for="dob">Date of Birth:</label>
+            <label class="control-label col-sm-3 add-label" for="dob">Date of Birth*:</label>
             <div class="col-sm-8">
                 <p id="dob" class="input-group col-sm-8">
                     <input type="text" class="form-control" uib-datepicker-popup="{{add.format}}" ng-model="add.dateOfBirth" is-open="add.datePickerOpened" datepicker-options="add.dateOptions" ng-required="true" close-text="Close" alt-input-formats="add.altInputFormats"/>
@@ -27,13 +27,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3 add-label" for="interests">Interests:</label>
+            <label class="control-label col-sm-3 add-label" for="interests">Interests*:</label>
             <div class="col-sm-8">
                 <input id="interests" type='text' ng-model='add.interests' placeholder='Enter interests' required />
             </div>
         </div>
         <div class="form-group form-inline">
-            <label class="control-label col-sm-3 add-label" for="image">Image:</label>
+            <label class="control-label col-sm-3 add-label" for="image">Image*:</label>
             <div class="input-group col-sm-8">
                 <label id="image" class="input-group-btn">
                     <span class="btn btn-primary">
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3 add-label" for="line1">Address Line 1:</label>
+            <label class="control-label col-sm-3 add-label" for="line1">Address Line 1*:</label>
             <div class="col-sm-8">
                 <input id="line1" type='text' ng-model='add.streetLine1' placeholder="Enter address line 1" required />
             </div>
@@ -52,30 +52,30 @@
         <div class="form-group">
             <label class="control-label col-sm-3 add-label" for="line2">Address Line 2:</label>
             <div class="col-sm-8">
-                <input id="line2" type='text' ng-model='add.streetLine2' placeholder="Enter address line 2" required />
+                <input id="line2" type='text' ng-model='add.streetLine2' placeholder="Enter address line 2" />
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3 add-label" for="city">City:</label>
+            <label class="control-label col-sm-3 add-label" for="city">City*:</label>
             <div class="col-sm-8">
                 <input id="city" type='text' ng-model='add.city' placeholder="Enter city" required />
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3 add-label" for="state">State:</label>
+            <label class="control-label col-sm-3 add-label" for="state">State*:</label>
             <div class="col-sm-8">
                 <input id="state" type='text' ng-model='add.state' placeholder="Enter state" required />
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3 add-label" for="zip">Zip:</label>
+            <label class="control-label col-sm-3 add-label" for="zip">Zip*:</label>
             <div class="col-sm-8">
                 <input id="zip" type='text' ng-model='add.postalCode' placeholder="Enter zip" required />
             </div>
         </div>
         <div>
             <div class="form-group">
-                <label class="control-label col-sm-3 add-label" for="country">Country:</label>
+                <label class="control-label col-sm-3 add-label" for="country">Country*:</label>
                 <div class="col-sm-8">
                     <input id="country" type='text' ng-model='add.country' placeholder="Enter country" required />
                 </div>
