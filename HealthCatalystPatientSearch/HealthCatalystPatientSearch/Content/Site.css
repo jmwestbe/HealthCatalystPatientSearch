@@ -30,7 +30,7 @@ textarea {
 }
 
 .add-label {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: bold;
     vertical-align: middle;
 }
@@ -91,5 +91,9 @@ textarea {
     font-size: 13px;
     font-weight: bold;
     font-style: italic;
+}
+
+.required {
+    border-bottom: 1px solid red;
 }
 

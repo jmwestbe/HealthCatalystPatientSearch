@@ -248,6 +248,9 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\Controllers\add.ctrl.js" />
+    <Content Include="Scripts\app\Controllers\search.ctrl.js" />
+    <Content Include="Scripts\app\Directives\myFiles.dir.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

@@ -24,7 +24,10 @@ namespace HealthCatalystPatientSearch
                         "~/Scripts/angular-loading-spinner.js",
                         "~/Scripts/angular-ui/ui-bootstrap.js",
                         "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
-                        "~/Scripts/app/app.js"));
+                        "~/Scripts/app/app.js",
+                        "~/Scripts/app/Directives/myFiles.dir.js",
+                        "~/Scripts/app/Controllers/add.ctrl.js",
+                        "~/Scripts/app/Controllers/search.ctrl.js"));
 
            
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
