@@ -200,6 +200,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Context\IPersonContext.cs" />
     <Compile Include="Context\PersonDataContextDbInitializer.cs" />
     <Compile Include="Context\PersonContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -216,7 +217,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\ITimeProvider.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\SystemTimeProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,54 +1,193 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Web.Script.Serialization;
 using HealthCatalystPatientSearch;
+using HealthCatalystPatientSearch.Context;
 using HealthCatalystPatientSearch.Controllers;
+using HealthCatalystPatientSearch.Models;
+using Moq;
+using NUnit.Framework;
+using System.Collections;
+using System.Linq.Expressions;
 
 namespace HealthCatalystPatientSearch.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class HomeControllerTest
     {
-        [TestMethod]
+        private HomeController _testSubject;
+
+        [Test]
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            _testSubject = new HomeController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = _testSubject.Index() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
-        public void About()
+        [Test]
+        public void Add()
         {
-            // Arrange
-            HomeController controller = new HomeController();
+            //Setup Moq
+            var contextMock = new Mock<IPersonContext>();
 
-            // Act
-            ViewResult result = controller.About() as ViewResult;
+            //Setup request data
+            var person = getPerson();
 
-            // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            contextMock.Setup(db => db.Add(person));
+
+            //setup test subject
+            _testSubject = new HomeController();
+            _testSubject.SetPersonContext(contextMock.Object);
+
+            //Execute
+            JsonResult result = _testSubject.Add(person);
+            string resultString = new JavaScriptSerializer().Serialize(result.Data);
+
+            //assert
+            Assert.AreEqual("\"Person\\n\\tName: James Potter\\n\\tAge: 0\\n\\tInterests: some interests\\n\\tAddress: 123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"", resultString);
+
+            //verify
+            contextMock.Verify(db => db.Add(person), Times.Once);
         }
 
-        [TestMethod]
-        public void Contact()
+        [Test]
+        public void GetPersons()
         {
-            // Arrange
-            HomeController controller = new HomeController();
+            var persons = new List<Person>() { getPerson(), getPerson() };
+            var searchString = "FindMe";
 
-            // Act
-            ViewResult result = controller.Contact() as ViewResult;
+            //Setup Moq
+            var contextMock = new Mock<IPersonContext>();
+            contextMock.Setup(db => db.Search(searchString)).Returns(persons);
 
-            // Assert
-            Assert.IsNotNull(result);
+            //setup test subject
+            _testSubject = new HomeController();
+            _testSubject.SetPersonContext(contextMock.Object);
+
+            //Execute
+            JsonResult result = _testSubject.GetPersons(searchString);
+            string resultString = new JavaScriptSerializer().Serialize(result.Data);
+
+            Console.WriteLine(resultString);
+
+            //Assert
+            Assert.AreEqual("[{\"Id\":0,\"FirstName\":\"James\",\"LastName\":\"Potter\",\"DateOfBirth\":\"\\/Date(1504159200000)\\/\",\"Interests\":\"some interests\",\"Address\":{\"Id\":0,\"StreetLine1\":\"123 Big St\",\"StreetLine2\":\"Apt 2\",\"City\":\"Anytown\",\"State\":\"UT\",\"PostalCode\":\"88888\",\"Country\":\"USA\",\"AsString\":\"123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"},\"Image\":[0,1],\"Age\":0},{\"Id\":0,\"FirstName\":\"James\",\"LastName\":\"Potter\",\"DateOfBirth\":\"\\/Date(1504159200000)\\/\",\"Interests\":\"some interests\",\"Address\":{\"Id\":0,\"StreetLine1\":\"123 Big St\",\"StreetLine2\":\"Apt 2\",\"City\":\"Anytown\",\"State\":\"UT\",\"PostalCode\":\"88888\",\"Country\":\"USA\",\"AsString\":\"123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"},\"Image\":[0,1],\"Age\":0}]", resultString);
+
+            //verify
+            contextMock.Verify(db => db.Search(searchString), Times.Once);
+        }
+
+        [Test]
+        public void GetPersonsWithNull()
+        {
+            var persons = new List<Person>() { getPerson(), getPerson() };
+            string searchString = null;
+
+            //Setup Moq
+            var contextMock = new Mock<IPersonContext>();
+            contextMock.Setup(db => db.Search(searchString)).Returns(persons);
+
+            //setup test subject
+            _testSubject = new HomeController();
+            _testSubject.SetPersonContext(contextMock.Object);
+
+            //Execute
+            JsonResult result = _testSubject.GetPersons(searchString);
+            string resultString = new JavaScriptSerializer().Serialize(result.Data);
+
+            Console.WriteLine(resultString);
+
+            //Assert
+            Assert.AreEqual("[{\"Id\":0,\"FirstName\":\"James\",\"LastName\":\"Potter\",\"DateOfBirth\":\"\\/Date(1504159200000)\\/\",\"Interests\":\"some interests\",\"Address\":{\"Id\":0,\"StreetLine1\":\"123 Big St\",\"StreetLine2\":\"Apt 2\",\"City\":\"Anytown\",\"State\":\"UT\",\"PostalCode\":\"88888\",\"Country\":\"USA\",\"AsString\":\"123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"},\"Image\":[0,1],\"Age\":0},{\"Id\":0,\"FirstName\":\"James\",\"LastName\":\"Potter\",\"DateOfBirth\":\"\\/Date(1504159200000)\\/\",\"Interests\":\"some interests\",\"Address\":{\"Id\":0,\"StreetLine1\":\"123 Big St\",\"StreetLine2\":\"Apt 2\",\"City\":\"Anytown\",\"State\":\"UT\",\"PostalCode\":\"88888\",\"Country\":\"USA\",\"AsString\":\"123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"},\"Image\":[0,1],\"Age\":0}]", resultString);
+
+            //verify
+            contextMock.Verify(db => db.Search(searchString), Times.Once);
+        }
+
+        [Test]
+        public void GetPersonsWithEmpty()
+        {
+            var persons = new List<Person>() { getPerson(), getPerson() };
+            var searchString = "";
+
+            //Setup Moq
+            var contextMock = new Mock<IPersonContext>();
+            contextMock.Setup(db => db.Search(searchString)).Returns(persons);
+
+            //setup test subject
+            _testSubject = new HomeController();
+            _testSubject.SetPersonContext(contextMock.Object);
+
+            //Execute
+            JsonResult result = _testSubject.GetPersons(searchString);
+            string resultString = new JavaScriptSerializer().Serialize(result.Data);
+
+            Console.WriteLine(resultString);
+
+            //Assert
+            Assert.AreEqual("[{\"Id\":0,\"FirstName\":\"James\",\"LastName\":\"Potter\",\"DateOfBirth\":\"\\/Date(1504159200000)\\/\",\"Interests\":\"some interests\",\"Address\":{\"Id\":0,\"StreetLine1\":\"123 Big St\",\"StreetLine2\":\"Apt 2\",\"City\":\"Anytown\",\"State\":\"UT\",\"PostalCode\":\"88888\",\"Country\":\"USA\",\"AsString\":\"123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"},\"Image\":[0,1],\"Age\":0},{\"Id\":0,\"FirstName\":\"James\",\"LastName\":\"Potter\",\"DateOfBirth\":\"\\/Date(1504159200000)\\/\",\"Interests\":\"some interests\",\"Address\":{\"Id\":0,\"StreetLine1\":\"123 Big St\",\"StreetLine2\":\"Apt 2\",\"City\":\"Anytown\",\"State\":\"UT\",\"PostalCode\":\"88888\",\"Country\":\"USA\",\"AsString\":\"123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"},\"Image\":[0,1],\"Age\":0}]", resultString);
+
+            //verify
+            contextMock.Verify(db => db.Search(searchString), Times.Once);
+        }
+
+        [Test]
+        public void SlowGetPersons()
+        {
+            var persons = new List<Person>() { getPerson(), getPerson() };
+            var searchString = "FindMe";
+
+            //Setup Moq
+            var contextMock = new Mock<IPersonContext>();
+            contextMock.Setup(db => db.Search(searchString)).Returns(persons);
+
+            //setup test subject
+            _testSubject = new HomeController();
+            _testSubject.SetPersonContext(contextMock.Object);
+
+            //Execute
+            JsonResult result = _testSubject.SlowGetPersons(searchString);
+            string resultString = new JavaScriptSerializer().Serialize(result.Data);
+
+            Console.WriteLine(resultString);
+
+            //Assert
+            Assert.AreEqual("[{\"Id\":0,\"FirstName\":\"James\",\"LastName\":\"Potter\",\"DateOfBirth\":\"\\/Date(1504159200000)\\/\",\"Interests\":\"some interests\",\"Address\":{\"Id\":0,\"StreetLine1\":\"123 Big St\",\"StreetLine2\":\"Apt 2\",\"City\":\"Anytown\",\"State\":\"UT\",\"PostalCode\":\"88888\",\"Country\":\"USA\",\"AsString\":\"123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"},\"Image\":[0,1],\"Age\":0},{\"Id\":0,\"FirstName\":\"James\",\"LastName\":\"Potter\",\"DateOfBirth\":\"\\/Date(1504159200000)\\/\",\"Interests\":\"some interests\",\"Address\":{\"Id\":0,\"StreetLine1\":\"123 Big St\",\"StreetLine2\":\"Apt 2\",\"City\":\"Anytown\",\"State\":\"UT\",\"PostalCode\":\"88888\",\"Country\":\"USA\",\"AsString\":\"123 Big St Apt 2\\nAnytown, UT 88888\\nUSA\"},\"Image\":[0,1],\"Age\":0}]", resultString);
+
+            //verify
+            contextMock.Verify(db => db.Search(searchString), Times.Once);
+        }
+
+        private static Person getPerson()
+        {
+            Person person = new Person()
+            {
+                FirstName = "James",
+                LastName = "Potter",
+                Address = new Address()
+                {
+                    StreetLine1 = "123 Big St",
+                    StreetLine2 = "Apt 2",
+                    City = "Anytown",
+                    State = "UT",
+                    PostalCode = "88888",
+                    Country = "USA"
+                },
+                DateOfBirth = new DateTime(2017, 8, 31),
+                Image = new byte[] { 0x0, 0x1 },
+                Interests = "some interests"
+            };
+            return person;
         }
     }
 }

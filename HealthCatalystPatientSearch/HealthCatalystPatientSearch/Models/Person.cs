@@ -32,15 +32,22 @@ namespace HealthCatalystPatientSearch.Models
         [NotMapped]
         public int Age => GetAge();
 
+        [NotMapped] private ITimeProvider _timeProvider;
+
+        public Person() : base()
+        {
+            _timeProvider = new SystemTimeProvider();
+        }
+
         public override string ToString()
         {
             return
                 $"Person\n\tName: {FirstName} {LastName}\n\tAge: {GetAge()}\n\tInterests: {Interests}\n\tAddress: {Address.ToString()}";
         }
 
-        public int GetAge()
+        private int GetAge()
         {
-            DateTime now = DateTime.Now;
+            DateTime now = _timeProvider.Now;
 
             int yearDiff = now.Year - DateOfBirth.Year;
 
@@ -65,6 +72,11 @@ namespace HealthCatalystPatientSearch.Models
             }
 
             return false;
+        }
+
+        public void SetTimeProvider(ITimeProvider timeProvider)
+        {
+            this._timeProvider = timeProvider;
         }
     }
 }

@@ -6,32 +6,32 @@ using System.Text;
 using System.Threading.Tasks;
 using HealthCatalystPatientSearch.Context;
 using HealthCatalystPatientSearch.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using NUnit.Framework;
 
 namespace HealthCatalystPatientSearch.Tests.Context
 {
-    [TestClass]
+    [TestFixture]
     public class PersonContextIntegTest
     {
-        private const string FirstStreetLine1 = "123 S";
-        private const string SecondStreetLine1 = "Apt 1";
-        private const string City1 = "Anytown";
-        private const string State1 = "Utah";
-        private const string Zip1 = "88888";
-        private const string Country1 = "USA";
-        private static readonly DateTime DateOfBirth1 = new DateTime(1998, 04, 13);
-        private const string FirstName1 = "XXXJohn";
-        private const string LastName1 = "XXXDoe";
-        private static readonly byte[] Image1 = new byte[] {0};
-        private static readonly string Interests1 = "archaeology, anthropology, apologists";
+        string FirstStreetLine1 = "123 S";
+        string SecondStreetLine1 = "Apt 1";
+        string City1 = "Anytown";
+        string State1 = "Utah";
+        string Zip1 = "88888";
+        string Country1 = "USA";
+        string FirstName1 = "XXXJohn";
+        string LastName1 = "XXXDoe";
+        string Interests1 = "archaeology, anthropology, apologists";
+        readonly byte[] Image1 = new byte[] { 0x0, 0x1 };
+        readonly DateTime DateOfBirth1 = new DateTime(1998, 04, 13);
 
 
         private Address _address;
         private Person _person;
 
+        private PersonContext _testSubject;
 
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             _address = new Address()
@@ -55,33 +55,34 @@ namespace HealthCatalystPatientSearch.Tests.Context
             };
         }
 
-        [TestCleanup]
+        [TearDown]
         public void CleanUp()
         {
-            using (PersonContext db = new PersonContext())
+            using (_testSubject = new PersonContext())
             {
                 //Delete Persons added during test
-                db.Persons.Attach(_person);
-                db.Addresses.Attach(_address);
-                db.Persons.Remove(_person);
-                db.Addresses.Remove(_address);
-                db.SaveChanges();
+                _testSubject.Persons.Attach(_person);
+                _testSubject.Addresses.Attach(_address);
+                _testSubject.Persons.Remove(_person);
+                _testSubject.Addresses.Remove(_address);
+                _testSubject.SaveChanges();
             }
         }
 
-        [TestMethod]
+        [Test]
         public void AddPersonToDBIsPersisted()
         {
-            using (PersonContext db = new PersonContext())
+            using (_testSubject = new PersonContext())
             {
                 //Create and save new Person
-                db.Persons.Add(_person);
-                db.SaveChanges();
+                _testSubject.Persons.Add(_person);
+                _testSubject.SaveChanges();
 
-                var persons = db.Persons.Include(p => p.Address).ToList();
+                var persons = _testSubject.Persons.Include(p => p.Address).ToList();
                 Assert.IsNotNull(persons);
                 Assert.AreEqual(1, persons.Count);
                 Assert.IsNotNull(persons[0]);
+
                 var person = persons[0];
                 Assert.AreEqual(FirstName1, person.FirstName);
                 Assert.AreEqual(LastName1, person.LastName);
@@ -95,8 +96,6 @@ namespace HealthCatalystPatientSearch.Tests.Context
                 Assert.AreEqual(State1, person.Address.State);
                 Assert.AreEqual(Zip1, person.Address.PostalCode);
                 Assert.AreEqual(Country1, person.Address.Country);
-
-                Console.WriteLine(person);
             }
         }
     }

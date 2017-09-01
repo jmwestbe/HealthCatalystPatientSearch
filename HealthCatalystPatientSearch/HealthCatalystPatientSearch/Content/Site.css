@@ -23,11 +23,11 @@ textarea {
     max-width: 280px;
 }
 
-.select-pages {
+/*.select-pages {
     width: 35px;
     text-align-last: center;
     padding-right: 10px;
-}
+}*/
 
 .add-label {
     font-size: 13px;
@@ -57,10 +57,6 @@ textarea {
     width: 75px;
 }
 
-.alert-med {
-    width: 275px;
-}
-
 .float-right {
     float: right;
 }
@@ -83,17 +79,10 @@ textarea {
     color: white;
 }
 
-.alert-button-pad-left {
-    padding-left: 10px;
-}
-
 .p-loading {
     font-size: 13px;
     font-weight: bold;
     font-style: italic;
 }
 
-.required {
-    border-bottom: 1px solid red;
-}
 

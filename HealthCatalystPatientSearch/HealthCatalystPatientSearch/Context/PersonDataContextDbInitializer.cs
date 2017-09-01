@@ -30,14 +30,17 @@ namespace HealthCatalystPatientSearch.Context
         {
             System.Diagnostics.Debug.WriteLine("Begin Seeding Data...");
 
-            var jsonPath = HttpContext.Current.Server.MapPath(@"~/App_Data/seed-data.json");
-            var jsonData = System.IO.File.ReadAllText(jsonPath);
+            if (HttpContext.Current != null) //only seed if httpcontext.current is available
+            {
+                var jsonPath = HttpContext.Current.Server.MapPath(@"~/App_Data/seed-data.json");
+                var jsonData = System.IO.File.ReadAllText(jsonPath);
 
-            List<Person> persons = JsonConvert.DeserializeObject<List<Person>>(
-                jsonData, new JsonSerializerSettings());
+                List<Person> persons = JsonConvert.DeserializeObject<List<Person>>(
+                    jsonData, new JsonSerializerSettings());
 
-            context.Persons.AddRange(persons);
-            context.SaveChanges();
+                context.Persons.AddRange(persons);
+                context.SaveChanges();
+            }
             System.Diagnostics.Debug.WriteLine("Finished Seeding Data...");
         }
     }

@@ -13,6 +13,13 @@ namespace HealthCatalystPatientSearch.Controllers
 {
     public class HomeController : Controller
     {
+        private IPersonContext _personContext;
+
+        public HomeController() : base()
+        {
+            _personContext = new PersonContext();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -23,10 +30,9 @@ namespace HealthCatalystPatientSearch.Controllers
         {
             System.Diagnostics.Debug.WriteLine($"In Add method for: { person.ToString() }");
 
-            using (var db = new PersonContext())
+            using (_personContext)
             {
-                db.Persons.Add(person);
-                db.SaveChanges();
+                _personContext.Add(person);
             }
 
             return Json(person.ToString());
@@ -42,25 +48,17 @@ namespace HealthCatalystPatientSearch.Controllers
         //GET
         public JsonResult GetPersons(string searchString = null)
         {
-            using (var db = new PersonContext())
+            using (_personContext)
             {
-                List<Person> persons;
-                if (searchString == null || searchString.IsEmpty())
-                {
-                    persons = db.Persons.Include(p => p.Address).OrderBy(p => p.LastName).ThenBy(p => p.FirstName).ToList();
-                }
-                else
-                {
-
-                    persons = db.Persons.Where(p =>
-                            (p.LastName != null && p.LastName.ToUpper().Contains(searchString)) //Handle Last Name
-                          ||
-                            (p.FirstName != null && p.FirstName.ToUpper().Contains(searchString)) //Handle First Name
-                          ).Include(p => p.Address).OrderBy(p => p.LastName).ThenBy(p => p.FirstName).ToList();
-                }
+                List<Person> persons = _personContext.Search(searchString);
 
                 return Json(persons, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public void SetPersonContext(IPersonContext personContext)
+        {
+            _personContext = personContext;
         }
     }
 }
