@@ -8,6 +8,7 @@ using System.Threading;
 using System.Web.WebPages;
 using HealthCatalystPatientSearch.Context;
 using HealthCatalystPatientSearch.Models;
+using System.Web.Script.Serialization;
 
 namespace HealthCatalystPatientSearch.Controllers
 {
@@ -52,7 +53,12 @@ namespace HealthCatalystPatientSearch.Controllers
             {
                 List<Person> persons = _personContext.Search(searchString);
 
-                return Json(persons, JsonRequestBehavior.AllowGet);
+                return new JsonResult()
+                {
+                    Data = persons,
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = Int32.MaxValue
+                };
             }
         }
 
