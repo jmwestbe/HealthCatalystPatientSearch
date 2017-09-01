@@ -5,7 +5,6 @@
     self.persons = [];
 
     self.alertShouldShow = false;
-    self.failedAlertShouldShow = false;
     self.firstSearch = true;
     self.loading = false;
     self.loadingMessage = "Nothing to see here";
@@ -85,9 +84,7 @@
                     },
                     5000,
                     1); //close alert after 5 seconds, if not already closed
-            } else {
-                self.failedAlertShouldShow = true;
-            }
+            } 
         },
             function () {
                 console.log('Modal dismissed at ' + new Date());
@@ -108,7 +105,6 @@
     self.closeAlert = function () {
         console.log("closing alert");
         self.alertShouldShow = false;
-        self.failedAlertShouldShow = false;
     }
 
     self.beginAppendLoadingDots = function () {
