@@ -15,6 +15,9 @@
             <label ng-show="sc.alertShouldShow" class="label-pad">&nbsp; &nbsp;SUCCESSFULLY ADDED PERSON&nbsp;&nbsp;<button type="button" class="close close-sm" ng-click="sc.closeAlert()">x</button></label>
         </div>
         <div class="form-group">
+            <label ng-show="sc.failedAlertShouldShow && !sc.alertShouldShow" class="label-pad-red">&nbsp; &nbsp;ADD FAILED. TRY SMALLER IMAGE&nbsp;&nbsp;<button type="button" class="close close-sm" ng-click="sc.closeAlert()">x</button></label>
+        </div>
+        <div class="form-group">
             <button type="submit" class="btn btn-primary btn-md" ng-click="sc.addPerson()" ng-disabled="sc.loading">Add Person</button>
         </div>
     </div>
