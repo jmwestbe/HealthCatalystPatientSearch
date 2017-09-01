@@ -1,3 +1,6 @@
+<p>Solution created in Microsoft Visual Studio 2017 Community Edition 15.3.3</p>
+<p>Note: if you receive an "error CS0012: The type 'IEnumerable' is defined in assembly that is not referenced...", please ensure that your Visual Studio 2017 is up to date.  When I ran this on a separate machine to test, I had to update Visual Studio (which  there to mitigate this error.</p>
+
 <h3>Health Catalyst - Patient Search Assignment</h3>
 <br />
 
