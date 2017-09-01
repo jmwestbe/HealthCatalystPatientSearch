@@ -43,7 +43,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="person in sc.persons.slice(((sc.currentPage-1)*sc.itemsPerPage), ((sc.currentPage)*sc.itemsPerPage))">
-            <td><img class="avatar" ng-src="data:image/JPEG;base64,{{sc.getBase64(person.Image)}}" /></td>
+            <td><img class="avatar" ng-src="data:image/JPEG;base64,{{sc.getBase64(person.Image)}}"/></td>
             <td>{{ person.LastName }}</td>
             <td>{{ person.FirstName }}</td>
             <td>{{ person.Age }}</td>
@@ -52,6 +52,9 @@
         </tr>
         </tbody>
     </table>
+    <div ng-show="sc.persons.length==0">
+        <h5>No Results Found</h5>
+    </div>
     <div>
         <ul uib-pagination total-items="sc.totalItems" ng-model="sc.currentPage" max-size="sc.maxSize" ng-change="sc.pageChanged()" class="pagination-sm" items-per-page="sc.itemsPerPage"></ul>
     </div>

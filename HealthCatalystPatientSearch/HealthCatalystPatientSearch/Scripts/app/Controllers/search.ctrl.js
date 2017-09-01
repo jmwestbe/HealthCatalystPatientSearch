@@ -118,7 +118,7 @@
         if (self.persons.length == 0) {
             console.log(self.persons.length);
             self.loading = true;
-            self.loadingMessage = "SEEDING DATABASE  . . .";
+            self.loadingMessage = "LOADING PERSONS  . . .";
             self.performSearch();
         }
     }
